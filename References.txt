@@ -1,0 +1,1 @@
+WMI Classes Reference: https://msdn.microsoft.com/en-us/library/aa389273(v=vs.85).aspx
