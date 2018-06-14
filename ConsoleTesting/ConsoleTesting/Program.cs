@@ -12,12 +12,14 @@ namespace ConsoleTesting
         static void Main(string[] args)
         {
             InfoGrabber test = new InfoGrabber();
+            InfoPrinter test2 = new InfoPrinter();
 
-            Console.WriteLine("Number of Physical Cores: " + test.getCoreCount());
-            Console.WriteLine("Processor Architecture: " + test.getProcessorArchitecture());
-            Console.WriteLine("Motherboard Manufacturer: " + test.getMotherboardManufacturer());
-            Console.WriteLine("Motherboard Model: " + test.getMotherboardModel());
-            Console.WriteLine("Motherboard Name: " + test.getMotherboardName());
+            test2.PrintCPUInfo();
+
+            Console.WriteLine("Processor Description" + test.GetCPUDescription());
+            Console.WriteLine("Motherboard Manufacturer: " + test.GetMotherboardManufacturer());
+            //Console.WriteLine("Motherboard Model: " + test.GetMotherboardModel());
+            Console.WriteLine("Motherboard Name: " + test.GetMotherboardName());
         }
     }
 }

@@ -1,75 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Management;
+﻿using System.Management;
+using System;
 
 namespace ConsoleTesting
 {
     class InfoGrabber
     {
-        private ManagementObjectSearcher processor, motherboard;
+        
+        
         public InfoGrabber()
         {
-            processor = new ManagementObjectSearcher("Select * from Win32_Processor");
-            motherboard = new ManagementObjectSearcher("Select * from Win32_BaseBoard");
+            
         }
 
-        public int getCoreCount()
+        public string GetCoreCount()
         {
-            var numberOfCores = 0;
-            foreach (var item in processor.Get())
-            {
-                numberOfCores += int.Parse(item["NumberOfCores"].ToString());
-            }
-            return numberOfCores;
+            return GetComponent("Win32_Processor", "NumberOfCores");
         }
 
-        public string getProcessorArchitecture()
+        public string GetProcessorArchitecture()
         {
-            string architecture = "Unknown";
-            foreach (var item in processor.Get())
-            {
-                 architecture = GetArchitectureDetail(int.Parse(item["Architecture"].ToString()));
-            }
-            return architecture;
+            return GetArchitectureDetail(Convert.ToInt32(GetComponent("Win32_Processor", "Architecture")));
         }
 
-        public string getMotherboardManufacturer()
+        public string GetMotherboardManufacturer()
         {
-            string manufacturer = "Unkown";
-            foreach (var item in motherboard.Get())
-            {
-                manufacturer = item["Manufacturer"].ToString();
-            }
-
-
-            return manufacturer;
+            return GetComponent("Win32_BaseBoard", "Manufacturer");
         }
 
-        public string getMotherboardModel()
+        public string GetMotherboardModel()
         {
-            string model = "Unkown";
-            foreach (var item in motherboard.Get())
-            {
-                model = item["Model"].ToString();
-            }
-
-
-            return model;
+            return GetComponent("Win32_BaseBoard", "Model");
         }
 
-        public string getMotherboardName()
+        public string GetMotherboardName()
         {
-            string name = "Unkown";
-            foreach (var item in motherboard.Get())
-            {
-                name = item["Name"].ToString();
-            }
-
-
-            return name;
+            return GetComponent("Win32_BaseBoard", "Name");
         }
 
         private static string GetArchitectureDetail(int architectureNumber)
@@ -86,5 +51,25 @@ namespace ConsoleTesting
                     return "Unkown";
             }
         }
+
+        public string GetCPUDescription()
+        {
+            return GetComponent("Win32_Processor", "Description");
+        }
+
+        public static string GetComponent(string wmiClass, string index)
+        {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * from " + wmiClass);
+            string data = "Unkown";
+            foreach (var item in searcher.Get())
+            {
+                data = item[index].ToString();
+            }
+
+            return data;
+        }
+
     }
+
+
 }
